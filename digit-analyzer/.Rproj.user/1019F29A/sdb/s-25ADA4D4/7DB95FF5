@@ -1,0 +1,17 @@
+{
+    "contents" : "\ntrain.complete <- read.csv(\"data/train.prep.bal.csv\", header=TRUE)\n\npdf(\"Row_Column_Distribution_digits.bal.pdf\",paper=\"a4\",width=7,height=11)\nfor (i in 0:9)\n{\n      par(mfrow=c(2,1))\n      data <- train.complete[train.complete$label == i,]\n      boxplot(data[,29:2],main=\"Distribution Density ~ Row No.\",horizontal=TRUE, outline=FALSE, ylab=\"Row No.\", xlab = \"Accumlated Density\")\n      mtext(paste(\"Digit: \",i), outer=TRUE,side = 3, line = -1, cex=1.2)\n      boxplot(data[,30:57],main=\"Distribution Column No. ~ Density\",outline=FALSE, xlab=\"Column No.\", ylab = \"Accumlated Density\")\n}\ndev.off()\n\n",
+    "created" : 1408280738362.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3450246798",
+    "id" : "7DB95FF5",
+    "lastKnownWriteTime" : 1408375821,
+    "path" : "C:/kaggle/digit-analyzer/digit-analyzer.pres..R",
+    "project_path" : "digit-analyzer.pres..R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

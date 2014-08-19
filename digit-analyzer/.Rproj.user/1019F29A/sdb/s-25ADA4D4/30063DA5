@@ -1,0 +1,16 @@
+{
+    "contents" : "\ntrain.raw <- read.csv(\"data/train.csv\", header=TRUE)\n\ncalcImageMeans <- function(data,id,asnumeric=TRUE) {\n      label <- as.numeric(data[id,1])\n      image <- data[id,-1]\n      colsum <-numeric()\n      rowsum <- numeric()\n      for (j in 0:27){\n            a<-j*28+1\n            b<-j*28+28\n            rowsum <- c(rowsum,sum(image[a:b]))\n            mcol<-0\n            for (i in 0:27){\n                  mcol <- mcol + image[j+1+i*28]\n            }\n            colsum <- c(colsum,mcol)\n      }\n      colsum <- as.numeric(colsum)\n      rowsum <- as.numeric(rowsum)\n      if (asnumeric){\n            result <- numeric()\n            result <- c(result,label,rowsum,colsum)\n      } else {\n            result <- list(\"label\" = label,\"rowsum\"=rowsum, \"colsum\"=colsum)      \n      }\n      result\n}\nresultlist = vector()\nfor (i in 1:nrow(train.raw) ){\n      result <- calcImageMeans(train.raw,i,asnumeric=TRUE)\n      resultlist <- c(resultlist,result)\n      if (i%%100 ==0)\n      {\n            print(i)\n      }\n}\n\nm<-matrix(resultlist,ncol=57,byrow=TRUE)\n\npaste(rep(\"col\",ncol(m)),c(1:ncol(m)),sep=\"\")\ncolnames(m)<-c(\"label\",paste(rep(\"rm\",28),c(1:28),sep=\"\"),\n                        paste(rep(\"cm\",28),c(1:28),sep=\"\"))\nwrite.csv(m,file=\"data/train_prep.txt\",row.names=FALSE)\n\n",
+    "created" : 1408391559302.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "564229798",
+    "id" : "30063DA5",
+    "lastKnownWriteTime" : 1408344682,
+    "path" : "C:/kaggle/digit-analyzer/alt/digit-analyzer_prep.R",
+    "project_path" : "alt/digit-analyzer_prep.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

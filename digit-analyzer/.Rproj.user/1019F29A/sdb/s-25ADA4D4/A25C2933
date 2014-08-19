@@ -1,0 +1,17 @@
+{
+    "contents" : "\ntrain.complete <- read.csv(\"data/train.prep.csv\", header=TRUE)\n\n# split training data into train batch and test batch\nlibrary(caret)\nlibrary(FNN)\nfilename <- \"knn_benchmark.eva.bal.csv\"\nset.seed(23)\n\ntraining.rows <- createDataPartition(train.complete$label, \n                               p = 0.8, list = FALSE)\ntrain.batch <- train.complete[training.rows, ]\ntest.batch <- train.complete[-training.rows, ]\ntrainlabels <- train.batch[,1]\ntraindata <- train.batch[,-1]\ntestdata <- test.batch[,-1]\ntestlabels <- test.batch[,1]\nresults <- (0:9)[knn(traindata, testdata, trainlabels, k = 10, algorithm=\"cover_tree\")]\n\naccuracy <- sum(results == testlabels)/length(testlabels)\nprint(accuracy)\n\n\noutput <- list()\noutput<-c(output,\"Method;K Value; Iteration; Accuracy\") \nfor (a in c(\"kd_tree\", \"cover_tree\",\"brute\")){\n      for (i in 1:3){\n            for (k in 5:15){\n                  print(paste(\"Starting Iteration:\",a,i,k))\n                  training.rows <- createDataPartition(train.complete$label, \n                                                       p = 0.8, list = FALSE)\n                  train.batch <- train.complete[training.rows, ]\n                  test.batch <- train.complete[-training.rows, ]\n                  \n                  trainlabels <- train.batch[,1]\n                  traindata <- train.batch[,-1]\n                  testdata <- test.batch[,-1]\n                  testlabels <- test.batch[,1]\n                  \n                  results <- (0:9)[knn(traindata, testdata, trainlabels, k = k, algorithm=a)]\n                  \n                  accuracy <- sum(results == testlabels)/length(testlabels)\n                  output<-c(output,paste(a,k,i,accuracy,sep=\";\"))\n            }\n      }\n}\nwriteLines(as.character(output),filename)\n",
+    "created" : 1408355104879.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3978853352",
+    "id" : "A25C2933",
+    "lastKnownWriteTime" : 1408378130,
+    "path" : "C:/kaggle/digit-analyzer/digit-analyzer.eval.R",
+    "project_path" : "digit-analyzer.eval.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
